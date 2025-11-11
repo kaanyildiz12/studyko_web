@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
       .limit(50)
       .get();
 
-    const notifications = snapshot.docs.map(doc => ({
+    const notifications = snapshot.docs.map((doc: any) => ({
       id: doc.id,
       ...doc.data(),
       sentAt: doc.data().sentAt?.toDate(),
@@ -75,19 +75,19 @@ export async function POST(request: NextRequest) {
     if (notification.targetType === 'all') {
       console.log('Tüm kullanıcılar getiriliyor...');
       const usersSnapshot = await adminDb.collection('users').get();
-      targetUserIds = usersSnapshot.docs.map(doc => doc.id);
+      targetUserIds = usersSnapshot.docs.map((doc: any) => doc.id);
       console.log('Toplam kullanıcı:', targetUserIds.length);
     } else if (notification.targetType === 'premium') {
       const usersSnapshot = await adminDb.collection('users')
         .where('isPremium', '==', true)
         .get();
-      targetUserIds = usersSnapshot.docs.map(doc => doc.id);
+      targetUserIds = usersSnapshot.docs.map((doc: any) => doc.id);
       console.log('Premium kullanıcı sayısı:', targetUserIds.length);
     } else if (notification.targetType === 'free') {
       const usersSnapshot = await adminDb.collection('users')
         .where('isPremium', '==', false)
         .get();
-      targetUserIds = usersSnapshot.docs.map(doc => doc.id);
+      targetUserIds = usersSnapshot.docs.map((doc: any) => doc.id);
       console.log('Free kullanıcı sayısı:', targetUserIds.length);
     } else if (notification.targetType === 'active') {
       const sevenDaysAgo = new Date();
@@ -95,7 +95,7 @@ export async function POST(request: NextRequest) {
       const usersSnapshot = await adminDb.collection('users')
         .where('lastActiveAt', '>=', sevenDaysAgo)
         .get();
-      targetUserIds = usersSnapshot.docs.map(doc => doc.id);
+      targetUserIds = usersSnapshot.docs.map((doc: any) => doc.id);
       console.log('Aktif kullanıcı sayısı:', targetUserIds.length);
     } else if (notification.targetType === 'inactive') {
       const thirtyDaysAgo = new Date();
@@ -103,7 +103,7 @@ export async function POST(request: NextRequest) {
       const usersSnapshot = await adminDb.collection('users')
         .where('lastActiveAt', '<', thirtyDaysAgo)
         .get();
-      targetUserIds = usersSnapshot.docs.map(doc => doc.id);
+      targetUserIds = usersSnapshot.docs.map((doc: any) => doc.id);
       console.log('Pasif kullanıcı sayısı:', targetUserIds.length);
     } else if (notification.targetType === 'specific') {
       // Parse email list
@@ -232,7 +232,7 @@ export async function POST(request: NextRequest) {
             // Clean up invalid tokens
             if (response.failureCount > 0) {
               const invalidTokenUsers: string[] = [];
-              response.responses.forEach((resp, idx) => {
+              response.responses.forEach((resp: any, idx: number) => {
                 if (!resp.success && 
                     (resp.error?.code === 'messaging/invalid-registration-token' ||
                      resp.error?.code === 'messaging/registration-token-not-registered')) {
@@ -243,7 +243,7 @@ export async function POST(request: NextRequest) {
               if (invalidTokenUsers.length > 0) {
                 console.log(`${invalidTokenUsers.length} geçersiz token temizleniyor...`);
                 const cleanupBatch = adminDb.batch();
-                invalidTokenUsers.forEach(userId => {
+                invalidTokenUsers.forEach((userId: string) => {
                   cleanupBatch.update(
                     adminDb.collection('users').doc(userId),
                     { fcmToken: null }
