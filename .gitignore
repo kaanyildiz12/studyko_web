@@ -26,6 +26,10 @@ yarn-error.log*
 .env*.local
 .env
 
+# Firebase credentials - NEVER commit these!
+*firebase*adminsdk*.json
+serviceAccountKey.json
+
 # vercel
 .vercel
 
