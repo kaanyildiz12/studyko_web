@@ -53,7 +53,7 @@ export async function GET(request: Request) {
         premiumType: data.premiumType || 'monthly', // monthly, yearly
         totalMinutes: data.totalMinutes || data.totalWorkMinutes || 0,
       };
-    }).sort((a, b) => {
+    }).sort((a: any, b: any) => {
       // Sort by premiumStartedAt in memory
       const dateA = a.premiumStartedAt?.getTime() || 0;
       const dateB = b.premiumStartedAt?.getTime() || 0;
@@ -61,8 +61,8 @@ export async function GET(request: Request) {
     });
 
     // Calculate revenue estimates
-    const monthlyRevenue = premiumUsers.filter(u => u.premiumType === 'monthly').length * 29;
-    const yearlyRevenue = premiumUsers.filter(u => u.premiumType === 'yearly').length * 200;
+    const monthlyRevenue = premiumUsers.filter((u: any) => u.premiumType === 'monthly').length * 29;
+    const yearlyRevenue = premiumUsers.filter((u: any) => u.premiumType === 'yearly').length * 200;
     const totalMonthlyRevenue = monthlyRevenue + (yearlyRevenue / 12);
 
     // Get growth stats (last 30 days)
@@ -84,8 +84,8 @@ export async function GET(request: Request) {
         totalMonthlyRevenue: Math.round(totalMonthlyRevenue),
         totalYearlyRevenue: Math.round(totalMonthlyRevenue * 12),
         newPremiumLast30Days,
-        monthlySubscribers: premiumUsers.filter(u => u.premiumType === 'monthly').length,
-        yearlySubscribers: premiumUsers.filter(u => u.premiumType === 'yearly').length,
+        monthlySubscribers: premiumUsers.filter((u: any) => u.premiumType === 'monthly').length,
+        yearlySubscribers: premiumUsers.filter((u: any) => u.premiumType === 'yearly').length,
       },
     };
 

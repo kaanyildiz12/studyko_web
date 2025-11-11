@@ -124,8 +124,8 @@ export async function POST(request: NextRequest) {
       );
       
       targetUserIds = userDocs
-        .filter(snapshot => !snapshot.empty)
-        .map(snapshot => snapshot.docs[0].id);
+        .filter((snapshot: any) => !snapshot.empty)
+        .map((snapshot: any) => snapshot.docs[0].id);
       
       console.log('Bulunan kullanıcı sayısı:', targetUserIds.length);
     }
@@ -167,12 +167,12 @@ export async function POST(request: NextRequest) {
       
       // Get user documents with FCM tokens
       const userDocs = await Promise.all(
-        targetUserIds.map(id => adminDb.collection('users').doc(id).get())
+        targetUserIds.map((id: string) => adminDb.collection('users').doc(id).get())
       );
       
       const usersWithTokens = userDocs
-        .filter(doc => doc.exists && doc.data()?.fcmToken)
-        .map(doc => ({
+        .filter((doc: any) => doc.exists && doc.data()?.fcmToken)
+        .map((doc: any) => ({
           id: doc.id,
           fcmToken: doc.data()!.fcmToken as string,
         }));
