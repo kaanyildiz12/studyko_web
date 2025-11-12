@@ -3,6 +3,9 @@ import { adminDb } from '@/lib/firebase-admin';
 import { verifyAdminToken } from '@/lib/auth';
 import { cache } from '@/lib/firebase-cost-optimizer';
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: Request) {
   try {
     // ✅ Authentication check

@@ -3,6 +3,9 @@ import { verifyAdminToken } from '@/lib/auth';
 import { adminDb, adminMessaging } from '@/lib/firebase-admin';
 import { cache } from '@/lib/firebase-cost-optimizer';
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     const token = request.headers.get('authorization')?.split('Bearer ')[1];

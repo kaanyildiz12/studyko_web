@@ -4,6 +4,9 @@ import { adminAuth } from '@/lib/firebase-admin';
 import { headers } from 'next/headers';
 import { cache } from '@/lib/firebase-cost-optimizer';
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
+
 /**
  * ⚡ OPTIMIZED ADMIN STATS API
  * 
